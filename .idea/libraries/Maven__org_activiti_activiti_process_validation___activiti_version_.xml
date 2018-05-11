@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.activiti:activiti-process-validation:${activiti.version}">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/activiti/activiti-process-validation/${activiti.version}/activiti-process-validation-${activiti.version}.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/activiti/activiti-process-validation/${activiti.version}/activiti-process-validation-${activiti.version}-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/activiti/activiti-process-validation/${activiti.version}/activiti-process-validation-${activiti.version}-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

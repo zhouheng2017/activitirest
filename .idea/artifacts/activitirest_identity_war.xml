@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="activitirest-identity:war">
+    <output-path>$PROJECT_DIR$/activitirest-identity/target</output-path>
+    <root id="archive" name="activitirest-identity.war">
+      <element id="artifact" artifact-name="activitirest-identity:war exploded" />
+    </root>
+  </artifact>
+</component>

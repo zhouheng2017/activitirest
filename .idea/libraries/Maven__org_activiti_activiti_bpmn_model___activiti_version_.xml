@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.activiti:activiti-bpmn-model:${activiti.version}">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/activiti/activiti-bpmn-model/${activiti.version}/activiti-bpmn-model-${activiti.version}.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/activiti/activiti-bpmn-model/${activiti.version}/activiti-bpmn-model-${activiti.version}-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/activiti/activiti-bpmn-model/${activiti.version}/activiti-bpmn-model-${activiti.version}-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

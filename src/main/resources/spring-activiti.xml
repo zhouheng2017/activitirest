@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+
+
+    <import resource="spring-mybatis.xml" />
+
+
+
+
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
+
+
+    <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+        <property name="dataSource" ref="dataSource" />
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="databaseSchemaUpdate" value="true" />
+        <property name="jobExecutorActivate" value="false" />
+        <property name="deploymentResources">
+            <list>
+                <value>classpath*:chapter6/dynamic-form/leave-dynamic-form.zip</value>
+                <value>classpath*:chapter6/leave-formkey/leave-formkey.zip</value>
+                <value>classpath*:chapter7/leave.zip</value>
+                <value>classpath*:/chapter8/leave-mail*.zip</value>
+                <value>classpath*:/chapter9/leave-countersign.zip</value>
+                <value>classpath*:/chapter10/purchase*.zip</value>
+                <value>classpath*:/chapter10/payment.zip</value>
+            </list>
+        </property>
+        <!--<property name="deploymentResources" value="classpath:/chapter9/leave-countersign.zip"/>-->
+        <!--<property name="deploymentResources">
+            <list>
+                &lt;!&ndash;<value>classpath*:/chapter7/leave.zip</value>&ndash;&gt;
+                &lt;!&ndash;<value>classpath*:/chapter8/leave-mail*.zip</value>&ndash;&gt;
+                <value>classpath*:/chapter9/leave-countersign.zip</value>
+                &lt;!&ndash;<value>classpath*:/chapter10/purchase*.zip</value>&ndash;&gt;
+                &lt;!&ndash;<value>classpath*:/chapter10/payment.zip</value>&ndash;&gt;
+            </list>
+        </property>-->
+        <!-- 生成流程图的字体 -->
+        <property name="activityFontName" value="宋体" />
+        <property name="labelFontName" value="宋体" />
+
+
+        <!-- 自定义表单字段类型 -->
+        <property name="customFormTypes">
+            <list>
+                <bean class="com.example.activiti.chapter6.form.JavascriptFormType" />
+                <bean class="com.example.activiti.chapter9.form.UsersFormType" />
+                <bean class="com.example.activiti.chapter10.form.DoubleFormType" />
+                <bean class="com.example.activiti.chapter10.form.BigtextFormType" />
+            </list>
+        </property>
+
+        <!-- 自定义表单引擎 -->
+        <property name="customFormEngines">
+            <list>
+                <bean class="com.example.activiti.chapter6.form.MyFormEngine" />
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean"
+          destroy-method="destroy">
+        <property name="processEngineConfiguration" ref="processEngineConfiguration" />
+    </bean>
+
+    <bean id="repositoryService" factory-bean="processEngine"
+          factory-method="getRepositoryService" />
+    <bean id="runtimeService" factory-bean="processEngine"
+          factory-method="getRuntimeService" />
+    <bean id="taskService" factory-bean="processEngine"
+          factory-method="getTaskService" />
+    <bean id="historyService" factory-bean="processEngine"
+          factory-method="getHistoryService" />
+    <bean id="managementService" factory-bean="processEngine"
+          factory-method="getManagementService" />
+    <bean id="identityService" factory-bean="processEngine"
+          factory-method="getIdentityService" />
+    <bean id="formService" factory-bean="processEngine"
+          factory-method="getFormService" />
+
+
+
+</beans>
