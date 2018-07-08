@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author henryyan
+ * @author zhouheng
  */
 @Controller
 @RequestMapping(value = "/chapter9/comment")

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * 请假会签任务监听器，当会签任务完成时统计同意的数量
  *
- * @author henryyan
+ * @author zhouheng
  */
 @Component
 public class LeaveCounterSignCompleteListener implements TaskListener {

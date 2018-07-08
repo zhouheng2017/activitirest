@@ -6,7 +6,7 @@ import org.activiti.engine.ProcessEngineConfiguration;
 /**
  * Activiti工具类
  *
- * @author henryyan
+ * @author zhouheng
  */
 public class ActivitiUtils {
 

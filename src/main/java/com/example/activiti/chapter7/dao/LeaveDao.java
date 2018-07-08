@@ -2,18 +2,17 @@ package com.example.activiti.chapter7.dao;
 
 import com.example.activiti.chapter7.entity.Leave;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- * @author henryyan
+ * @author zhouheng
  */
 @Repository
 public class LeaveDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    //TODO 打開这里
+//    @Autowired
+//    private SessionFactory sessionFactory;
 
     /**
      * 保存实体
@@ -31,7 +30,8 @@ public class LeaveDao {
     }
 
     private Session getSession() {
-        return sessionFactory.getCurrentSession();
+        return null;//TODO 替換
+//        return sessionFactory.getCurrentSession();
     }
 
 }

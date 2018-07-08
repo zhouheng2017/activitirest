@@ -5,7 +5,7 @@ import org.activiti.engine.impl.form.StringFormType;
 /**
  * 大文本表单字段
  *
- * @author henryyan
+ * @author zhouheng
  */
 public class BigtextFormType extends StringFormType {
 

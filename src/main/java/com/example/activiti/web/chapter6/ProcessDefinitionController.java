@@ -31,7 +31,7 @@ import java.util.Set;
 /**
  * 流程定义相关功能：读取动态表单字段、读取外置表单内容
  *
- * @author henryyan
+ * @author zhouheng
  */
 @Controller
 @RequestMapping(value = "/chapter6")

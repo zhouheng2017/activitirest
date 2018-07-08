@@ -4,6 +4,7 @@ package com.example.activiti.web.chapter6;
 import com.example.activiti.chapter13.Page;
 import com.example.activiti.chapter13.PageUtil;
 import com.example.activiti.chapter6.util.UserUtil;
+import com.example.activiti.util.AbacUtil;
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
@@ -34,7 +35,7 @@ import java.util.Map.Entry;
 /**
  * 任务控制器
  *
- * @author henryyan
+ * @author zhouheng
  */
 @Controller
 @RequestMapping(value = "/chapter6")
@@ -78,6 +79,31 @@ public class TaskController {
             mav.addObject("taskName", taskName);
         }
 
+        AbacUtil abacUtil = new AbacUtil();
+        //通过权限控制当前用户所属的组
+        String policyLocation = "E:\\maven\\workspace\\java2\\activitirest\\src\\main\\resources\\directory";
+        //调用评估的结果获取可以访问的结果值
+        Set<String> evaluate = abacUtil.evaluate(user.getId(), policyLocation, "examiner");
+
+        //设置从abac中获取访问结果的数组，并且需要构建sql的in字符串
+        StringBuffer stringBuffer = new StringBuffer();
+        int i = 0;
+        for (String s : evaluate) {
+            if (i < evaluate.size() - 1) {
+
+                stringBuffer.append("'");
+                stringBuffer.append(s).append("'").append(",");
+            } else {
+                stringBuffer.append("'");
+                stringBuffer.append(s).append("'");
+            }
+            i++;
+        }
+        String inValue = stringBuffer.toString();
+       /* if (inValue == null) {
+            inValue = "'RichfitOperator'";
+        }*/
+
         // 当前人在候选人或者候选组范围之内
 //        String sql = "select distinct ACT_RU_TASK.* from ACT_RU_TASK left join ACT_RU_IDENTITYLINK on ACT_RU_IDENTITYLINK.TASK_ID_ = ACT_RU_TASK.ID_ WHERE SUSPENSION_STATE_ = '1' and " +
 //                " ( ACT_RU_TASK.ASSIGNEE_ = #{userId}" +
@@ -85,8 +111,22 @@ public class TaskController {
 //                ") )" + filters + " order by ACT_RU_TASK.CREATE_TIME_ desc";
         String sql = "select distinct RES.* from ACT_RU_TASK RES left join ACT_RU_IDENTITYLINK I on I.TASK_ID_ = RES.ID_ WHERE SUSPENSION_STATE_ = '1' and " +
                         " ( RES.ASSIGNEE_ = #{userId}" +
-                        " or (RES.ASSIGNEE_ is null  and ( I.USER_ID_ = #{userId} or I.GROUP_ID_ IN (select G.GROUP_ID_ from ACT_ID_MEMBERSHIP G where G.USER_ID_ = #{userId} ) )" +
+                        " or (RES.ASSIGNEE_ is null  and ( I.USER_ID_ = #{userId} or I.GROUP_ID_ IN (" +inValue+
+                " ) )" +
                         ") )" + filters + " order by RES.CREATE_TIME_ desc";
+
+        /*//这里是修改后使用自己数据库表的sql
+        String sql = "select distinct RES.* from ACT_RU_TASK RES left join ACT_RU_IDENTITYLINK I on I.TASK_ID_ = RES.ID_ WHERE SUSPENSION_STATE_ = '1' and " +
+                        " ( RES.ASSIGNEE_ = #{userId}" +
+                        " or (RES.ASSIGNEE_ is null  and ( I.USER_ID_ = #{userId} or I.GROUP_ID_ IN (select G.role_id from aiauserrole G where G.user_id = #{userId} ) )" +
+                        ") )" + filters + " order by RES.CREATE_TIME_ desc";*/
+        /**
+         * 这是原来最初的sql
+         */
+/*        String sql = "select distinct RES.* from ACT_RU_TASK RES left join ACT_RU_IDENTITYLINK I on I.TASK_ID_ = RES.ID_ WHERE SUSPENSION_STATE_ = '1' and " +
+                        " ( RES.ASSIGNEE_ = #{userId}" +
+                        " or (RES.ASSIGNEE_ is null  and ( I.USER_ID_ = #{userId} or I.GROUP_ID_ IN (select G.GROUP_ID_ from ACT_ID_MEMBERSHIP G where G.USER_ID_ = #{userId} ) )" +
+                        ") )" + filters + " order by RES.CREATE_TIME_ desc";*/
 
         nativeTaskQuery.sql(sql).parameter("userId", user.getId());
         List<Task> tasks = nativeTaskQuery.listPage(pageParams[0], pageParams[1]);

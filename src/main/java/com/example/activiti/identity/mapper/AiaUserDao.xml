@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.activiti.identity.dao.AiaUserDao">
+
+
+
+    <resultMap id="userList" type="com.example.activiti.identity.entity.AiaUser">
+        <id property="id" column="uid" javaType="string"/>
+        <result property="userName" column="userName" javaType="string"/>
+        <result property="password" column="password" javaType="string"/>
+        <result property="deptId" column="departId" javaType="string"/>
+        <result property="email" column="email" javaType="string"/>
+        <result property="loginName" column="loginName" javaType="string"/>
+
+        <association property="dept" javaType="com.example.activiti.identity.entity.AiaDepartment">
+            <id property="id" column="did"/>
+            <result property="parentId" column="parent_Id"/>
+            <result property="name" column="name"/>
+
+        </association>
+
+    </resultMap>
+
+    <resultMap id="userRoleList" type="com.example.activiti.identity.entity.AiaUser" extends="userList">
+        <collection property="roles" ofType="com.example.activiti.identity.entity.AiaRole">
+            <id property="id" column="rid" javaType="string"/>
+            <result property="roleName" column="role_Name" javaType="string"/>
+            <result property="roleCode" column="role_code" javaType="string"/>
+        </collection>
+
+    </resultMap>
+
+    <!--&lt;!&ndash; 关联查询分类和产品表 &ndash;&gt;-->
+    <!--<select id="listCategory" resultMap="categoryBean">-->
+        <!--select c.*, p.*, c.id 'cid', p.id 'pid', c.name 'cname', p.name 'pname' from category_ c left join product_ p on c.id = p.cid-->
+    <!--</select>-->
+
+    <!--&lt;!&ndash; 根据id查询Product, 关联将Orders查询出来 &ndash;&gt;-->
+    <!--<select id="listProduct" resultMap="productBean">-->
+        <!--select c.*, p.*, c.id 'cid', p.id 'pid', c.name 'cname', p.name 'pname' from category_ c left join product_ p on c.id = p.cid-->
+    <!--</select>-->
+
+
+    <insert id="save" parameterType="com.example.activiti.identity.entity.AiaUser">
+
+
+        INSERT INTO aiauser(id, userName, loginName, password, email, departId) VALUES (#{id}, #{userName}, #{loginName}, #{password}, #{email}, #{deptId});
+    </insert>
+
+
+    <delete id="delete">
+        DELETE FROM aiauser WHERE id=#{id};
+    </delete>
+
+    <select id="get" resultType="com.example.activiti.identity.entity.AiaUser">
+
+        SELECT id, userName, loginName, password, email, departId FROM aiauser WHERE id = #{id};
+    </select>
+    <select id="findByLoginName" resultType="com.example.activiti.identity.entity.AiaUser">
+        SELECT id, userName, loginName, password, email, departId FROM aiauser WHERE loginName = #{loginName};
+    </select>
+
+    <select id="getAllUserAndRole" resultMap="userRoleList">
+        SELECT u.*, r.* ,u.id 'uid', r.id 'rid' FROM aiauser u
+        LEFT JOIN aiauserrole ur ON u.id = ur.user_id
+        LEFT JOIN aiarole r ON r.id = ur.role_id
+
+
+    </select>
+
+    <select id="getdepartment" resultMap="userList">
+        SELECT u.*, dept.*, u.id 'uid', dept.id 'did'  FROM aiauser u
+        LEFT JOIN aiauserdepartment aud ON u.id = aud.user_id
+        LEFT JOIN aiadepartment dept ON aud.department_id = dept.id
+    </select>
+    <select id="findUserById" resultType="com.example.activiti.identity.entity.AiaUser">
+
+        SELECT * FROM aiauser WHERE id=#{userId};
+    </select>
+
+</mapper>

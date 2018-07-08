@@ -3,7 +3,7 @@ package com.example.activiti.chapter6.util;
 import org.activiti.engine.ProcessEngineConfiguration;
 
 /**
- * @author henryyan
+ * @author zhouheng
  */
 public class InitEngineeDatabase {
 

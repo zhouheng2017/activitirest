@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.activiti.identity.dao.AiaRoleDao">
+
+
+    <resultMap id="rolesResult" type="com.example.activiti.identity.entity.AiaRole">
+        <id property="id" column="rid"/>
+        <result property="roleCode" column="role_code"/>
+        <result property="roleName" column="role_Name"/>
+
+        <!--<collection property="users" ofType="com.example.activiti.identity.entity.AiaUser">-->
+            <!--<id property="id" column="uid"/>-->
+            <!--<result property="userName" column="userName" />-->
+            <!--<result property="password" column="password" />-->
+            <!--<result property="deptId" column="departId" />-->
+            <!--<result property="email" column="email" />-->
+            <!--<result property="loginName" column="loginName"/>-->
+        <!--</collection>-->
+        <!--<collection property="resources" ofType="com.example.activiti.identity.entity.AiaResource">-->
+            <!--<id property="id" column="resourceId"/>-->
+            <!--<result property="parentId" column="parent_id"/>-->
+            <!--<result property="description" column="description"/>-->
+            <!--<result property="resourceName" column="resource_name"/>-->
+        <!--</collection>-->
+    </resultMap>
+
+<!--    <insert id="save" parameterType="com.example.activiti.identity.entity.AiaRole">
+        INSERT INTO aiarole (id, role_Name, role_code) VALUES (#{id}, #{roleName}, #{roleCode})
+    </insert>-->
+
+    <delete id="delete">
+        DELETE FROM aiarole WHERE id = #{id};
+    </delete>
+
+    <select id="findByUserId" resultMap="rolesResult">
+
+
+        SELECT role_Name, role_code, u.id 'uid', r.id 'rid' FROM aiarole r
+        LEFT JOIN aiauserrole ur ON r.id = ur.role_id
+        LEFT JOIN aiauser u ON u.id = ur.user_id
+
+        WHERE u.id = #{userId}
+    </select>
+    <!--<select id="get" resultType="com.example.activiti.identity.entity.AiaRole">
+
+
+        SELECT id, role_Name, role_code FROM aiarole WHERE id= #{id};
+    </select>-->
+    <select id="save" resultType="string">
+
+        INSERT INTO aiarole (id, role_Name, role_code) VALUES (#{id}, #{roleName}, #{roleCode})
+    </select>
+    <select id="get" resultMap="rolesResult">
+
+        SELECT id, role_Name, role_code FROM aiarole WHERE id= #{id};
+    </select>
+</mapper>

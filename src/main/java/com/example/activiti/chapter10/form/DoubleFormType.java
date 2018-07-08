@@ -6,7 +6,7 @@ import org.apache.commons.lang3.ObjectUtils;
 /**
  * double表单字段类型
  *
- * @author henryyan
+ * @author zhouheng
  */
 public class DoubleFormType extends AbstractFormType {
 

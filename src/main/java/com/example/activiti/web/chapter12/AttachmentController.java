@@ -24,7 +24,7 @@ import java.io.InputStream;
 /**
  * 附件控制器
  *
- * @author henryyan
+ * @author zhouheng
  */
 @Controller
 @RequestMapping(value = "/chapter12/attachment")

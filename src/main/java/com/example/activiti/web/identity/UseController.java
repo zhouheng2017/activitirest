@@ -56,6 +56,7 @@ public class UseController {
        * 读取角色
        */
             List<Group> groupList = identityService.createGroupQuery().groupMember(user.getId()).list();
+
             session.setAttribute("groups", groupList);
 
             String[] groupNames = new String[groupList.size()];

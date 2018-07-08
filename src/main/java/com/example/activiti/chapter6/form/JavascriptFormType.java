@@ -5,7 +5,7 @@ import org.activiti.engine.form.AbstractFormType;
 /**
  * Javascript表单字段
  *
- * @author henryyan
+ * @author zhouheng
  */
 public class JavascriptFormType extends AbstractFormType {
 

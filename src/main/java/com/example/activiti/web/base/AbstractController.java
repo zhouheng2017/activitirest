@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 抽象Controller，提供一些基础的方法、属性
  *
- * @author henryyan
+ * @author zhouheng
  */
 public abstract class AbstractController {
 
